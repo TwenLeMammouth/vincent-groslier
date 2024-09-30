@@ -4,7 +4,7 @@ import { ProjectType } from '../lib/interface';
 import Image from 'next/image';
 
 async function getData() {
-  const groq = `*[_type == 'project'] {
+  const groq = `*[_type == 'project'] | order(_createdAt desc) {
     title,
     _id,
     link, 
@@ -13,7 +13,7 @@ async function getData() {
     "imageUrl": image.asset->url,
   }`;
 
-  const data = await client.fetch(groq);
+  const data = await client.fetch(groq, {}, { next: { revalidate: 30 }});
 
   return data;
 }

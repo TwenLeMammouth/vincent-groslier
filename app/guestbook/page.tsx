@@ -10,8 +10,10 @@ import { useFormStatus } from 'react-dom';
 import prisma from '../lib/db';
 import { LoaderBouncingBall } from '../components/Loader';
 import { FormLoading, LoadingMessages } from '../components/LoadingState';
+import { unstable_noStore as noStore} from 'next/cache';
 
 async function getGuestBookEntry() {
+  noStore();
   const data = await prisma.guestBookEntry.findMany({
     select: {
       User: {
